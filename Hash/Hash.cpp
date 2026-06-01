@@ -83,11 +83,11 @@ ValueType& HashTable::operator[](const KeyType &key) {
         }
     }
     
-    // Вставляем новый элемент со значением 0.0
+    
     table[index].emplace_back(key, 0.0);
     ++_filled;
     
-    // Возвращаем ссылку на только что вставленный элемент
+    
     return table[index].back().second;
 }
 
