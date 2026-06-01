@@ -5,7 +5,6 @@
 
 static void* global_tree_ptr = nullptr;
 
-// RED = true, BLACK = false
 static const bool RED   = true;
 static const bool BLACK = false;
 
@@ -100,7 +99,7 @@ BinarySearchTree::~BinarySearchTree()
 
 void BinarySearchTree::insert(const Key &key, const Value &value)
 {
-    // --- лямбды для RB-вставки ---
+
     auto rotateLeft = [&](Node *x) {
         Node *y   = x->right;
         x->right  = y->left;
@@ -125,7 +124,7 @@ void BinarySearchTree::insert(const Key &key, const Value &value)
         y->parent = x;
     };
 
-    // Обычная BST-вставка
+
     Node *z   = new Node(key, value);
     z->color  = RED;
     Node *y   = nullptr;
@@ -139,7 +138,7 @@ void BinarySearchTree::insert(const Key &key, const Value &value)
     else if (key < y->keyValuePair.first)  y->left     = z;
     else                                    y->right    = z;
 
-    // Fix-up
+  
     Node *cur = z;
     while (cur->parent && cur->parent->color == RED) {
         Node *grandpa = cur->parent->parent;
@@ -217,8 +216,7 @@ void BinarySearchTree::erase(const Key &key)
         if (v) v->parent = u->parent;
     };
 
-    // Fix-up после удаления чёрного узла
-    // x — замена удалённого, xParent — его родитель (нужен когда x == nullptr)
+
     auto fixup = [&](Node *x, Node *xParent) {
         while (x != _root && !(x && x->color == RED)) {
             if (x == (xParent ? xParent->left : nullptr)) {
@@ -283,7 +281,7 @@ void BinarySearchTree::erase(const Key &key)
     };
 
     while (true) {
-        // Найти самый левый (первый in-order) узел с ключом key
+
         Node *current = _root;
         Node *target  = nullptr;
         while (current) {
@@ -313,7 +311,7 @@ void BinarySearchTree::erase(const Key &key)
             xParent = z->parent;
             transplant(z, z->left);
         } else {
-            // In-order successor — минимум правого поддерева
+            
             y = z->right;
             while (y->left) y = y->left;
             yOrigColor = y->color;
